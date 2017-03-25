@@ -35,8 +35,8 @@ public class KarumiHQsProperties {
     }
 
     @Property(trials = 1000)
-    public void neverLessThan2MaxibonsInTheFridgeWithNotSoHungryDevs
-          (@From(NotSoHungryDevelopersGenerator.class) Developer developer) {
+    public void neverLessThan2MaxibonsInTheFridgeWithNotSoHungryDevs(
+          @From(NotSoHungryDevelopersGenerator.class) Developer developer) {
         System.out.println(developer);
         karumiHQs.openFridge(developer);
         System.out.println("quedan:" + karumiHQs.getMaxibonsLeft());
@@ -44,8 +44,8 @@ public class KarumiHQsProperties {
     }
 
     @Property(trials = 20)
-    public void neverLessThan2MaxibonsInTheFridgeWithAListOfDevs
-          (List<@From(NotSoHungryDevelopersGenerator.class) Developer> developer) {
+    public void neverLessThan2MaxibonsInTheFridgeWithAListOfDevs(
+          List<@From(NotSoHungryDevelopersGenerator.class) Developer> developer) {
         developer.stream().forEach(System.out::println);
 
         karumiHQs.openFridge(developer);
@@ -55,8 +55,8 @@ public class KarumiHQsProperties {
     }
 
     @Property(trials = 5)
-    public void messageIsSentWhenThereAreLessThan2MaxibonsWithADeveloper
-          (@From(HungryDevelopersGenerator.class) Developer developer) {
+    public void messageIsSentWhenThereAreLessThan2MaxibonsWithADeveloper(
+          @From(HungryDevelopersGenerator.class) Developer developer) {
 
         karumiHQs.openFridge(developer);
         System.out.println("quedan:" + karumiHQs.getMaxibonsLeft());
@@ -65,8 +65,8 @@ public class KarumiHQsProperties {
     }
 
     @Property(trials = 5)
-    public void messageIsNotSentWhenThereAreEnoughtMaxibonsWithADeveloper
-          (@From(NotSoHungryDevelopersGenerator.class) Developer developer) {
+    public void messageIsNotSentWhenThereAreEnoughtMaxibonsWithADeveloper(
+          @From(NotSoHungryDevelopersGenerator.class) Developer developer) {
 
         karumiHQs.openFridge(developer);
         System.out.println("quedan:" + karumiHQs.getMaxibonsLeft());
