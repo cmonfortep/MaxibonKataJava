@@ -6,24 +6,24 @@ import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
 import static org.junit.Assert.assertFalse;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 @RunWith(JUnitQuickcheck.class)
 public class KarumiHQsProperties {
 
-    @Mock
     private Chat mockedChat;
-
     private KarumiHQs karumiHQs;
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        mockedChat = mock(Chat.class);
         karumiHQs = new KarumiHQs(mockedChat);
     }
 
@@ -43,7 +43,7 @@ public class KarumiHQsProperties {
         assertFalse(karumiHQs.getMaxibonsLeft() < 2);
     }
 
-    @Property(trials = 5)
+    @Property(trials = 20)
     public void neverLessThan2MaxibonsInTheFridgeWithAListOfDevs
           (List<@From(NotSoHungryDevelopersGenerator.class) Developer> developer) {
         developer.stream().forEach(System.out::println);
@@ -52,5 +52,25 @@ public class KarumiHQsProperties {
         System.out.println("quedan:" + karumiHQs.getMaxibonsLeft());
 
         assertFalse(karumiHQs.getMaxibonsLeft() < 2);
+    }
+
+    @Property(trials = 5)
+    public void messageIsSentWhenThereAreLessThan2MaxibonsWithADeveloper
+          (@From(HungryDevelopersGenerator.class) Developer developer) {
+
+        karumiHQs.openFridge(developer);
+        System.out.println("quedan:" + karumiHQs.getMaxibonsLeft());
+
+        verify(mockedChat).sendMessage(anyString());
+    }
+
+    @Property(trials = 5)
+    public void messageIsNotSentWhenThereAreEnoughtMaxibonsWithADeveloper
+          (@From(NotSoHungryDevelopersGenerator.class) Developer developer) {
+
+        karumiHQs.openFridge(developer);
+        System.out.println("quedan:" + karumiHQs.getMaxibonsLeft());
+
+        verify(mockedChat, never()).sendMessage(anyString());
     }
 }
