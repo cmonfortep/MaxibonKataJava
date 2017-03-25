@@ -1,5 +1,6 @@
 package com.karumi.maxibonkata;
 
+import com.pholser.junit.quickcheck.From;
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 
@@ -12,9 +13,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(JUnitQuickcheck.class) public class DeveloperProperties {
 
     @Property(trials = 2)
-    public void theNumberOfMaxibonsAssignedIsPositiveOrZero(String name, int numberOfMaxibons) {
-        System.out.println(numberOfMaxibons);
-        Developer developer = new Developer(name, numberOfMaxibons);
+    public void theNumberOfMaxibonsAssignedIsPositiveOrZero(@From(DevelopersGenerator.class) Developer developer) {
         System.out.println(developer);
         assertTrue(developer.getNumberOfMaxibonsToGrab() >= 0);
     }
